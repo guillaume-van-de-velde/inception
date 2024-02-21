@@ -17,3 +17,7 @@ RUN openssl req \
     -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=svan-de-.42.fr/UID=svan-de-"
 
 COPY ./config/nginx.conf /etc/nginx/nginx.conf
+
+COPY ./config/error.html /var/www/html/error.html
+
+CMD ["nginx", "-g", "daemon off;"]
