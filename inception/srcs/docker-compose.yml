@@ -1,67 +1,54 @@
-version: '3'
+version: '3.8'
 
 services:
 
   mariadb:
-
+    build: requirements/mariadb
+    volumes:
+      - /home/sabri/mariadb:/var/lib/mysql
+    restart: unless-stopped
+    image: mariadb
     container_name: mariadb
+    env_file: .env
     networks:
       - inception
-    build:
-      context: requirements/mariadb
-    env_file: .env
-    volumes:
-      - mariadb:/var/lib/mysql
-    expose:
-      - "3306"
-    restart: always
 
   wordpress:
-
-    container_name: wordpress
-    networks:
-      - inception
-    build:
-      context: requirements/wordpress
+    build: requirements/wordpress
+    volumes:
+      - /home/sabri/wordpress:/var/www/wordpress
     depends_on:
       - mariadb
+    restart: on-failure
+    image: wordpress
+    container_name: wordpress
     env_file: .env
-    volumes:
-      - wordpress:/var/www/wordpress
-    expose:
-      - "9000"
-    restart: always
+    networks:
+      - inception
 
   nginx:
-
+    build: requirements/nginx
+    ports:
+      - "443:443"
+    volumes:
+      - /home/sabri/wordpress:/var/www/wordpress
+    depends_on:
+      - wordpress
+    restart: always
+    image: nginx
     container_name: nginx
     networks:
       - inception
-    build:
-      context: requirements/nginx
-    depends_on:
-      - wordpress
     env_file: .env
-    volumes:
-      - wordpress:/var/www/wordpress
-    ports:
-      - "443:443"
-    restart: always
 
 volumes:
-
   wordpress:
-    driver_opts:
-      type: none
-      o: bind
-      device: $VOLUME_DIR/wordpress
-
+    driver: local
   mariadb:
-    driver_opts:
-      type: none
-      o: bind
-      device: $VOLUME_DIR/mariadb
+    driver: local
 
 networks:
   inception:
     driver: bridge
+  default:
+    name: net
