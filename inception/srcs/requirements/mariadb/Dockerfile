@@ -15,3 +15,4 @@ RUN chmod +x /home/script.sh
 EXPOSE 3306
 
 ENTRYPOINT ["/home/script.sh"]
+
