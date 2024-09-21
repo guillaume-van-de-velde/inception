@@ -4,11 +4,11 @@ RUN apt update -y && apt upgrade -y
 
 RUN apt install wget php-fpm mariadb-client -y
 
+RUN mkdir -p /run/php /var/www/wordpress
 
 RUN wget https://fr.wordpress.org/wordpress-6.5-fr_FR.tar.gz -P /var/www
 
-RUN cd /var/www && tar -xf wordpress-6.5-fr_FR.tar.gz && rm wordpress-6.5-fr_FR.tar.gz
-
+RUN cd /var/www && tar -xf wordpress-6.5-fr_FR.tar.gz
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 

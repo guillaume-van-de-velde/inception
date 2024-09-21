@@ -4,7 +4,8 @@ services:
     build: requirements/mariadb
     volumes:
       - /home/mariadb:/var/lib/mysql
-    restart: unless-stopped
+    #stop_grace_period: 1s
+    #restart: unless-stopped
     image: mariadb
     container_name: mariadb
     env_file: .env
@@ -19,7 +20,7 @@ services:
       - /home/wordpress:/var/www/wordpress
     depends_on:
       - mariadb
-    restart: on-failure
+    #restart: on-failure
     image: wordpress
     container_name: wordpress
     env_file: .env
@@ -36,7 +37,7 @@ services:
       - /home/wordpress:/var/www/wordpress
     depends_on:
       - wordpress
-    restart: always
+    #restart: always
     image: nginx
     container_name: nginx
     networks:
