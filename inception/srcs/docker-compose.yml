@@ -37,7 +37,7 @@ services:
       - /home/wordpress:/var/www/wordpress
     depends_on:
       - wordpress
-    #restart: always
+    restart: always
     image: nginx
     container_name: nginx
     networks:

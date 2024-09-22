@@ -18,4 +18,6 @@ COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 COPY ./conf/error.html /var/www/html/error.html
 
+EXPOSE 443
+
 CMD ["nginx", "-g", "daemon off;"]
