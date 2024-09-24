@@ -2,9 +2,7 @@ FROM debian:bullseye
 
 RUN apt update -y && apt upgrade -y
 
-RUN apt-get update && \
-    apt-get install -y \
-    apt-utils \
+RUN apt install -y \
     curl \
     php-fpm \
     php-mysql \
@@ -20,28 +18,22 @@ RUN apt-get update && \
     libmariadb-dev-compat \
     libmariadb-dev
 
-RUN mkdir -p /run/php /var/www/wordpress
+RUN mkdir -p /run/php /var/www/html
 
 RUN wget https://fr.wordpress.org/wordpress-6.5-fr_FR.tar.gz -P /var/www
-
-RUN cd /var/www && tar -xf wordpress-6.5-fr_FR.tar.gz
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
 RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
-
 COPY conf/config.sh /home/config.sh
 
 RUN chmod +x /home/config.sh
 
-COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
+RUN sed -i 's|listen = /run/php/php7.4-fpm.sock|listen = 9000|' /etc/php/7.4/fpm/pool.d/www.conf
 
 EXPOSE 9000
-
 
 ENTRYPOINT ["/home/config.sh"]
 
 CMD ["php-fpm7.4", "-F"]
-
-# CMD ["sh", "/home/config.sh"]

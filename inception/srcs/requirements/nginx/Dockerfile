@@ -2,8 +2,7 @@ FROM debian:bullseye
 
 RUN apt update -y && apt upgrade -y
 
-RUN apt install nginx openssl -y
-
+RUN apt install nginx openssl vim -y
 
 RUN mkdir -p /etc/nginx/ssl/
 
@@ -15,8 +14,6 @@ RUN openssl req \
 
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-
-COPY ./conf/error.html /var/www/html/error.html
 
 EXPOSE 443
 

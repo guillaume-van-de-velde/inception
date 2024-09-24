@@ -4,8 +4,7 @@ services:
     build: requirements/mariadb
     volumes:
       - /home/mariadb:/var/lib/mysql
-    #stop_grace_period: 1s
-    #restart: unless-stopped
+    restart: unless-stopped
     image: mariadb
     container_name: mariadb
     env_file: .env
@@ -17,10 +16,10 @@ services:
   wordpress:
     build: requirements/wordpress
     volumes:
-      - /home/wordpress:/var/www/wordpress
+      - /home/wordpress:/var/www/html
     depends_on:
       - mariadb
-    #restart: on-failure
+    restart: on-failure
     image: wordpress
     container_name: wordpress
     env_file: .env
@@ -34,7 +33,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - /home/wordpress:/var/www/wordpress
+      - /home/wordpress:/var/www/html
     depends_on:
       - wordpress
     restart: always
