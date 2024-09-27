@@ -8,9 +8,9 @@ until mysqladmin ping &>/dev/null; do \
        sleep 1; \
 done
 
-mariadb -u root -e "CREATE DATABASE $DATABASE;
-                    CREATE USER $USER IDENTIFIED BY '$PASSWORD';
-                    GRANT ALL PRIVILEGES ON $DATABASE.* TO $USER IDENTIFIED BY '$PASSWORD';
+mariadb -u root -e "CREATE DATABASE $DB_NAME;
+                    CREATE USER $DB_USER IDENTIFIED BY '$DB_PASSWORD';
+                    GRANT ALL PRIVILEGES ON $DB_NAME.* TO $DB_USER IDENTIFIED BY '$DB_PASSWORD';
                     FLUSH PRIVILEGES;"
 
 while true; do
