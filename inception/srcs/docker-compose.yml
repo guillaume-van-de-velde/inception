@@ -4,7 +4,7 @@ services:
     build: requirements/mariadb
     volumes:
       - mariadb:/var/lib/mysql
-    restart: unless-stopped
+    restart: on-failure
     image: mariadb
     container_name: mariadb
     env_file: .env
@@ -36,7 +36,7 @@ services:
       - wordpress:/var/www/html
     depends_on:
       - wordpress
-    restart: always
+    restart: on-failure
     image: nginx
     container_name: nginx
     networks:
