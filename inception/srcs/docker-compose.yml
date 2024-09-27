@@ -3,7 +3,7 @@ services:
   mariadb:
     build: requirements/mariadb
     volumes:
-      - /home/mariadb:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     restart: unless-stopped
     image: mariadb
     container_name: mariadb
@@ -16,7 +16,7 @@ services:
   wordpress:
     build: requirements/wordpress
     volumes:
-      - /home/wordpress:/var/www/html
+      - wordpress:/var/www/html
     depends_on:
       - mariadb
     restart: on-failure
@@ -33,7 +33,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - /home/wordpress:/var/www/html
+      - wordpress:/var/www/html
     depends_on:
       - wordpress
     restart: always
@@ -45,9 +45,15 @@ services:
 
 volumes:
   wordpress:
-    driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: $VOLUME_DIR/wordpress
   mariadb:
-    driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: $VOLUME_DIR/mariadb
 
 networks:
   inception:
