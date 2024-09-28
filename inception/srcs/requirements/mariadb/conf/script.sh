@@ -2,7 +2,7 @@
 
 mysql_install_db --user=mysql --ldata=/var/lib/mysql
 
-mysqld_safe --nowatch &
+mysqld_safe &
 
 until mysqladmin ping &>/dev/null; do \
        sleep 1; \
@@ -13,6 +13,6 @@ mariadb -u root -e "CREATE DATABASE $DB_NAME;
                     GRANT ALL PRIVILEGES ON $DB_NAME.* TO $DB_USER IDENTIFIED BY '$DB_PASSWORD';
                     FLUSH PRIVILEGES;"
 
-while true; do
-    sleep 1
-done
+mysqladmin -u root shutdown
+
+exec mysqld_safe

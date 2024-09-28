@@ -6,6 +6,8 @@ cd /var/www && tar -xf wordpress-6.5-fr_FR.tar.gz -C /var/www/html --strip-compo
 
 cd /var/www/html
 
+sleep 5
+
 while ! mariadb -h mariadb -u $DB_USER -p$DB_PASSWORD -P 3306 $DB_NAME -e ";" 2>/dev/null ; do
 	sleep 1
 done
@@ -19,4 +21,4 @@ if ! wp core is-installed --allow-root ; then
     wp user create --allow-root $WP_USER_USERNAME $WP_USER_USERNAME@wordpress.com --user_pass=$WP_USER_PASSWORD
 fi
 
-exec "$@"
+exec php-fpm7.4 -F
