@@ -26,12 +26,12 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 
 RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
-COPY conf/config.sh /home/config.sh
+COPY conf/wordpress.sh /home/wordpress.sh
 
-RUN chmod +x /home/config.sh
+RUN chmod +x /home/wordpress.sh
 
 RUN sed -i 's|listen = /run/php/php7.4-fpm.sock|listen = 9000|' /etc/php/7.4/fpm/pool.d/www.conf
 
 EXPOSE 9000
 
-ENTRYPOINT ["/home/config.sh"]
+ENTRYPOINT ["/home/wordpress.sh"]
