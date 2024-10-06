@@ -90,6 +90,19 @@ services:
     depends_on:
       - wordpress
 
+  portainer:
+    image: portainer
+    build: requirements/bonus/portainer
+    networks:
+      - inception
+    ports:
+      - "12000:9000"
+      - "12001:9443"
+    container_name: portainer
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
 volumes:
   wordpress:
       driver_opts:
