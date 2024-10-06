@@ -43,6 +43,53 @@ services:
       - inception
     env_file: .env
 
+  redis:
+    image: redis
+    build: requirements/bonus/redis
+    networks:
+      - inception
+    container_name: redis
+    restart: on-failure
+
+  ftp:
+    image: ftp
+    build: requirements/bonus/ftp/
+    networks:
+      - inception
+    ports:
+      - "21:21"
+      - "7000-7010:7000-7010"
+    volumes:
+      - wordpress:/var/www/html
+    container_name: ftp
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      - wordpress
+
+  adminer:
+    image: adminer
+    build: requirements/bonus/adminer/
+    networks:
+      - inception
+    volumes:
+      - wordpress:/var/www/html
+    container_name: adminer
+    depends_on:
+      - wordpress
+
+  staticpage:
+    image: staticpage
+    build: requirements/bonus/staticpage/
+    networks:
+      - inception
+    volumes:
+      - wordpress:/var/www/html
+    container_name: staticpage
+    depends_on:
+      - wordpress
+
 volumes:
   wordpress:
       driver_opts:

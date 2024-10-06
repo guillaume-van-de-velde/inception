@@ -21,4 +21,8 @@ if ! wp core is-installed --allow-root ; then
     wp user create --allow-root $WP_USER_USERNAME $WP_USER_USERNAME@wordpress.com --user_pass=$WP_USER_PASSWORD
 fi
 
+wp plugin install redis-cache --activate --allow-root
+wp config set WP_REDIS_HOST "redis" --allow-root
+wp redis enable --allow-root
+
 exec php-fpm7.4 -F
